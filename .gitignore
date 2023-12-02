@@ -13,7 +13,11 @@
 # Rider
 .idea/
 
+# Depedencies
+.bin/
+
 # NuGet
+.obj/
 *.nuget.props
 *.nuget.targets
 *.lock.json
