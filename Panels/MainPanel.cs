@@ -18,6 +18,7 @@ namespace MyCloths.Panels
             panel.AddButton("Sélection", (ui) =>
             {
                 if (ui.selectedTab == 0) PanelManager.NextPanel(player, ui, () => Console.WriteLine("next panel"));
+                else if (ui.selectedTab == 1) PanelManager.NextPanel(player, ui, () => ClothDataPanels.SetupClothType(player));
                 else PanelManager.Notification(player, "Erreur", "Vous devez sélectionner un choix", NotificationManager.Type.Error);
             });
             panel.AddButton("Fermer", (ui) => PanelManager.Quit(ui, player));

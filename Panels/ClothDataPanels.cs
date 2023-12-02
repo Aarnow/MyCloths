@@ -3,6 +3,7 @@ using Life.AirportSystem;
 using Life.InventorySystem;
 using Life.Network;
 using Life.UI;
+using Newtonsoft.Json;
 using System;
 using UIPanelManager;
 
@@ -43,12 +44,12 @@ namespace MyCloths.Panels
 
             panel.AddButton("Homme", (ui) =>
             {
-                newCloth.isMale = true;
+                newCloth.IsMale = true;
                 PanelManager.NextPanel(player, ui, () => SetupClothData(player, newCloth));
             });
             panel.AddButton("Femme", (ui) =>
             {
-                newCloth.isMale = false;
+                newCloth.IsMale = false;
                 PanelManager.NextPanel(player, ui, () => SetupClothData(player, newCloth));
             });
             panel.AddButton("Retour", (ui) => PanelManager.NextPanel(player, ui, () => SetupClothType(player)));
@@ -67,7 +68,7 @@ namespace MyCloths.Panels
 
             panel.AddButton("Confirmer", (ui) =>
             {
-                if (ui.inputText.Length <= 0)
+                if (ui.inputText.Length > 0)
                 {
                     PanelManager.NextPanel(player, ui, () =>
                     {
@@ -115,13 +116,16 @@ namespace MyCloths.Panels
 
             panel.AddButton("Sauvegarder", (ui) =>
             {
-                if (ui.inputText.Length <= 0)
+                if (ui.inputText.Length > 0)
                 {
                     PanelManager.NextPanel(player, ui, () =>
                     {
                         newCloth.Name = ui.inputText;
                         newClothData.clothName = ui.inputText;
-                        PanelManager.NextPanel(player, ui, () => SetupClothName(player, newCloth, newClothData));
+                        newCloth.ClothData = JsonConvert.SerializeObject(newClothData);
+                        newCloth.Save();
+                        PanelManager.Notification(player, "Succès", "Votre vêtement à bien été sauvegardé.", NotificationManager.Type.Success);
+                        MainPanel.OpenMyClothsMenu(player);
                     });
                 }
                 else PanelManager.Notification(player, "Erreur", "Vous devez renseigner le nom de votre vêtement", NotificationManager.Type.Error);
