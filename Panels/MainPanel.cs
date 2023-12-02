@@ -13,8 +13,7 @@ namespace MyCloths.Panels
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Tab).SetTitle($"MyCloths Menu");
 
             panel.AddTabLine("Liste des vêtements personnalisés", (ui) => ui.selectedTab = 0);
-            panel.AddTabLine("Créer un T-Shirt personnalisé", (ui) => ui.selectedTab = 1);
-            panel.AddTabLine("Créer un Pantalon personnalisé", (ui) => ui.selectedTab = 2);
+            panel.AddTabLine("Créer un vêtement personnalisé", (ui) => ui.selectedTab = 1);
             
             panel.AddButton("Sélection", (ui) =>
             {

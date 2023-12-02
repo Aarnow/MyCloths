@@ -8,8 +8,8 @@ namespace MyCloths
         public double Price;
         public CharacterCustomization.ClothesPartType ClothType;
         public int ClothId;
-
-        public bool IsUsedCloth;
+        public bool isMale;
+        public bool IsCustom;
         public ClothData ClothData;
     }
 }
