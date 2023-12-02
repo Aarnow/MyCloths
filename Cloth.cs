@@ -7,6 +7,7 @@ using UIPanelManager;
 
 namespace MyCloths
 {
+    [Serializable]
     public class Cloth
     {
         public string Slug;
@@ -24,7 +25,8 @@ namespace MyCloths
 
         public void CreateCustomCloth(Player player)
         {
-
+            if (ClothType == CharacterCustomization.ClothesPartType.Shirt) player.setup.inventory.AddItem(IsMale ? 153 : 154, 1, ClothData);
+            else player.setup.inventory.AddItem(IsMale ? 1073 : 1074, 1, ClothData);      
         }
 
         public void EquipCustomCloth(Player player)

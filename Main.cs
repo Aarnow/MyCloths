@@ -31,6 +31,7 @@ namespace MyCloths
                 if (player.IsAdmin) ClothListPanels.ShowClostList(player);
             }).Register();
 
+
             Console.WriteLine($"Plugin \"MyCloths\" initialisé avec succès.");
         }
 
