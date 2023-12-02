@@ -11,6 +11,12 @@ namespace MyCloths
         public static string directoryPath;
         public static string clothPath;
 
+        public static string girlColor = "#E30B5C";
+        public static string boyColor = "#19A8AF";
+
+        public static int shirtIcon = Array.IndexOf(LifeManager.instance.icons, LifeManager.instance.item.GetItem(153).icon);
+        public static int pantIcon = Array.IndexOf(LifeManager.instance.icons, LifeManager.instance.item.GetItem(1073).icon);
+
         public Main(IGameAPI api) :base(api)
         {
         }
@@ -22,7 +28,7 @@ namespace MyCloths
 
             new SChatCommand("/mycloths", new string[] { "/mc", "/myc" }, "Permet d'ouvrir le panel du plugin MyCloths", "/mycloths", (player, arg) =>
             {
-                if (player.IsAdmin) MainPanel.OpenMyClothsMenu(player);
+                if (player.IsAdmin) ClothListPanels.ShowClostList(player);
             }).Register();
 
             Console.WriteLine($"Plugin \"MyCloths\" initialisé avec succès.");

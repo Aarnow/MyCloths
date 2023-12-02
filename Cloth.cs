@@ -1,12 +1,15 @@
-﻿using Life.InventorySystem;
+﻿using Life;
 using Life.Network;
 using Newtonsoft.Json;
+using System;
 using System.IO;
+using UIPanelManager;
 
 namespace MyCloths
 {
     public class Cloth
     {
+        public string Slug;
         public string Name;
         public double Price;
         public CharacterCustomization.ClothesPartType ClothType;
@@ -19,24 +22,30 @@ namespace MyCloths
         {
         }
 
-        public void Create(Player player, Cloth newCloth)
+        public void CreateCustomCloth(Player player, Cloth newCloth)
         {
-            /*if (newCloth.IsCustom)
+
+            if (newCloth.ClothType == CharacterCustomization.ClothesPartType.Shirt)
             {
-                if (newCloth.ClothType == CharacterCustomization.ClothesPartType.Shirt)
-                {
-                    player.setup.interaction.currentClothes.shirtId = newCloth.IsMale ? 153 : 154;
-                }
-                else
-                {
-                    player.setup.interaction.currentClothes.pantsId = newCloth.IsMale ? 1073 : 1074;
-                }
+                player.setup.interaction.currentClothes.shirtId = newCloth.IsMale ? 153 : 154;
+                player.setup.interaction.currentClothes.shirtData = newCloth.ClothData;
+            }        
+            else
+            {
+                player.setup.interaction.currentClothes.pantsId = newCloth.IsMale ? 1073 : 1074;
+                player.setup.interaction.currentClothes.pantsData = newCloth.ClothData;
             }
+            
+            player.setup.interaction.UseCloth(player.setup.interaction.currentClothes);
+        }
 
-            string jsonClothData = JsonConvert.SerializeObject(newCloth.ClothData);
-            player.setup.interaction.currentClothes.shirtData = jsonClothData;
+        public void Delete(Player player)
+        {
+            string path = Main.clothPath + "/Cloth_" + Slug + ".json";
+            Console.WriteLine(path);
+            if (File.Exists(path)) File.Delete(path);
 
-            player.setup.interaction.UseCloth(player.setup.interaction.currentClothes);*/
+            PanelManager.Notification(player, "Succès", "Le vêtement à bien été supprimé.", NotificationManager.Type.Success);
         }
 
         public void Save()
@@ -46,8 +55,8 @@ namespace MyCloths
 
             do
             {
-                Name += $"_{number}";
-                filePath = Path.Combine(Main.clothPath, $"Cloth_{Name}.json");
+                Slug = $"{Name}_{number}";
+                filePath = Path.Combine(Main.clothPath, $"Cloth_{Slug}.json");
                 number++;
             } while (File.Exists(filePath));
 

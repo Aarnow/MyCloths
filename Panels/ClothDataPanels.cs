@@ -1,15 +1,13 @@
 ﻿using Life;
-using Life.AirportSystem;
 using Life.InventorySystem;
 using Life.Network;
 using Life.UI;
 using Newtonsoft.Json;
-using System;
 using UIPanelManager;
 
 namespace MyCloths.Panels
 {
-    internal class ClothDataPanels
+    abstract class ClothDataPanels
     {
         public static void SetupClothType(Player player)
         {
@@ -30,7 +28,7 @@ namespace MyCloths.Panels
                 newCloth.ClothType = CharacterCustomization.ClothesPartType.Pants;
                 SetupClothGender(player, newCloth);
             }));
-            panel.AddButton("Retour", (ui) => PanelManager.NextPanel(player, ui, () => MainPanel.OpenMyClothsMenu(player)));
+            panel.AddButton("Retour", (ui) => PanelManager.NextPanel(player, ui, () => ClothListPanels.ShowClostList(player)));
             panel.AddButton("Fermer", (ui) => PanelManager.Quit(ui, player));
 
             player.ShowPanelUI(panel);
@@ -125,7 +123,7 @@ namespace MyCloths.Panels
                         newCloth.ClothData = JsonConvert.SerializeObject(newClothData);
                         newCloth.Save();
                         PanelManager.Notification(player, "Succès", "Votre vêtement à bien été sauvegardé.", NotificationManager.Type.Success);
-                        MainPanel.OpenMyClothsMenu(player);
+                        ClothListPanels.ShowClostList(player);
                     });
                 }
                 else PanelManager.Notification(player, "Erreur", "Vous devez renseigner le nom de votre vêtement", NotificationManager.Type.Error);
