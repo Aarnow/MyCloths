@@ -14,10 +14,10 @@
 .idea/
 
 # Depedencies
-.bin/
+bin/
+obj/
 
 # NuGet
-.obj/
 *.nuget.props
 *.nuget.targets
 *.lock.json
