@@ -35,7 +35,7 @@ namespace MyCloths.Panels
                     (ui) => ui.selectedTab = index);
             }
 
-                panel.AddButton("Récupérer", (ui) => PanelManager.Quit(ui, player));
+                panel.AddButton("Récupérer", (ui) => PanelManager.NextPanel(player, ui, () => clothList[ui.selectedTab].EquipCustomCloth(player)));
             panel.AddButton("Ajouter", (ui) => PanelManager.NextPanel(player, ui, () => ClothDataPanels.SetupClothType(player)));
             panel.AddButton("Supprimer", (ui) => PanelManager.NextPanel(player, ui, () =>
             {
