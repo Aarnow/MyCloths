@@ -2,6 +2,7 @@
 using Life.InventorySystem;
 using Life.Network;
 using Life.UI;
+using MyCloths.Components;
 using Newtonsoft.Json;
 using UIPanelManager;
 
@@ -11,7 +12,7 @@ namespace MyCloths.Panels
     {
         public static void SetupClothType(Player player)
         {
-            Cloth newCloth = new Cloth();
+            PCloth newCloth = new PCloth();
             newCloth.IsCustom = true;
 
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Text).SetTitle($"Définir le type de vêtement");
@@ -20,12 +21,12 @@ namespace MyCloths.Panels
 
             panel.AddButton("T-Shirt", (ui) => PanelManager.NextPanel(player, ui, () =>
             {
-                newCloth.ClothType = CharacterCustomization.ClothesPartType.Shirt;
+                newCloth.ClothType = ClothType.Shirt;
                 SetupClothGender(player, newCloth);
             }));
             panel.AddButton("Pantalon", (ui) => PanelManager.NextPanel(player, ui, () =>
             {
-                newCloth.ClothType = CharacterCustomization.ClothesPartType.Pants;
+                newCloth.ClothType = ClothType.Pants;
                 SetupClothGender(player, newCloth);
             }));
             panel.AddButton("Retour", (ui) => PanelManager.NextPanel(player, ui, () => ClothListPanels.ShowClostList(player)));
@@ -34,7 +35,7 @@ namespace MyCloths.Panels
             player.ShowPanelUI(panel);
         }
 
-        public static void SetupClothGender(Player player, Cloth newCloth)
+        public static void SetupClothGender(Player player, PCloth newCloth)
         {
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Text).SetTitle($"Définir la genre du vêtement");
 
@@ -56,7 +57,7 @@ namespace MyCloths.Panels
             player.ShowPanelUI(panel);
         }
 
-        public static void SetupClothData(Player player, Cloth newCloth)
+        public static void SetupClothData(Player player, PCloth newCloth)
         {
             ClothData newClothData = new ClothData();
 
@@ -82,7 +83,7 @@ namespace MyCloths.Panels
             player.ShowPanelUI(panel);
         }
 
-        public static void SetupClothPrice(Player player, Cloth newCloth, ClothData newClothData)
+        public static void SetupClothPrice(Player player, PCloth newCloth, ClothData newClothData)
         {
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Input).SetTitle($"Définir le prix du vêtement");
 
@@ -95,7 +96,7 @@ namespace MyCloths.Panels
                     PanelManager.NextPanel(player, ui, () =>
                     {
                         newCloth.Price = clothPrice;
-                        PanelManager.NextPanel(player, ui, () => SetupClothName(player, newCloth, newClothData));
+                        PanelManager.NextPanel(player, ui, () => SetupClothRestriction(player, newCloth, newClothData));
                     });
                 }
                 else PanelManager.Notification(player, "Erreur", "Vous devez définir un prix au bon format et positif.", NotificationManager.Type.Error);
@@ -106,7 +107,29 @@ namespace MyCloths.Panels
             player.ShowPanelUI(panel);
         }
 
-        public static void SetupClothName(Player player, Cloth newCloth, ClothData newClothData)
+        public static void SetupClothRestriction(Player player, PCloth newCloth, ClothData newClothData)
+        {
+            UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Text).SetTitle($"Disponibilité du vêtement");
+
+            panel.text = "Est ce que votre vêtement est disponible pour le grand public ?\n (exemple: Indiquez \"Privé\" s'il s'agit d'un vêtement dédié à un métier)";
+
+            panel.AddButton("Public", (ui) => PanelManager.NextPanel(player, ui, () =>
+            {
+                newCloth.IsRestricted = false;
+                SetupClothName(player, newCloth, newClothData);
+            }));
+            panel.AddButton("Privé", (ui) => PanelManager.NextPanel(player, ui, () =>
+            {
+                newCloth.IsRestricted = true;
+                SetupClothName(player, newCloth, newClothData);
+            }));
+            panel.AddButton("Retour", (ui) => PanelManager.NextPanel(player, ui, () => SetupClothPrice(player, newCloth, newClothData)));
+            panel.AddButton("Fermer", (ui) => PanelManager.Quit(ui, player));
+
+            player.ShowPanelUI(panel);
+        }
+
+        public static void SetupClothName(Player player, PCloth newCloth, ClothData newClothData)
         {
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Input).SetTitle($"Définir le nom du vêtement");
 

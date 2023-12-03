@@ -1,10 +1,9 @@
 ﻿using Life;
 using Life.InventorySystem;
 using Life.Network;
-using Mirror;
+using MyCloths.Components;
 using MyCloths.Panels;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -21,41 +20,75 @@ namespace MyCloths
         public static int shirtIcon = Array.IndexOf(LifeManager.instance.icons, LifeManager.instance.item.GetItem(153).icon);
         public static int pantIcon = Array.IndexOf(LifeManager.instance.icons, LifeManager.instance.item.GetItem(1073).icon);
 
-        public static List<Cloth> clothList = new List<Cloth>();
+        public static PClothList clothList = new PClothList();
 
         public Main(IGameAPI api) :base(api)
         {
             foreach (BuyableCloth c in Nova.server.buyableCloths)
             {
-                Cloth newCloth = new Cloth();
+                PCloth newCloth = new PCloth();
                 newCloth.Slug = c.name;
                 newCloth.Name = c.name;
                 newCloth.Price = 0;
+                newCloth.ClothId = c.clothId;
+                newCloth.SexId = c.sexId;
+                newCloth.IsCustom = false;
+                newCloth.IsRestricted = false;
+
                 switch (c.clothType)
                 {
                     case 0:
-                        newCloth.ClothType = CharacterCustomization.ClothesPartType.Hat;
+                        newCloth.ClothType = ClothType.Hat;
+                        clothList.Hats.Add(newCloth);
                         break;
                     case 1:
-                        newCloth.ClothType = CharacterCustomization.ClothesPartType.Accessory;
+                        newCloth.ClothType = ClothType.Accessory;
+                        clothList.Accessories.Add(newCloth);
                         break;
                     case 2:
-                        newCloth.ClothType = CharacterCustomization.ClothesPartType.Shirt;
+                        newCloth.ClothType = ClothType.Shirt;
+                        clothList.Shirts.Add(newCloth);
                         break;
                     case 3:
-                        newCloth.ClothType = CharacterCustomization.ClothesPartType.Pants;
+                        newCloth.ClothType = ClothType.Pants;
+                        clothList.Pants.Add(newCloth);
                         break;
                     case 4:
-                        newCloth.ClothType = CharacterCustomization.ClothesPartType.Shoes;
+                        newCloth.ClothType = ClothType.Shoes;
+                        clothList.Shoes.Add(newCloth);
                         break;
                     default:
                         break;
                 }
-                newCloth.ClothId = c.clothId;
-                newCloth.SexId = c.sexId;
-                newCloth.IsCustom = false;
-                clothList.Add(newCloth);
             }
+
+            PCloth.AddRestrictedCloth("Casquette de policier", ClothType.Hat, 3);
+            PCloth.AddRestrictedCloth("Casque de pompier", ClothType.Hat, 4);
+            PCloth.AddRestrictedCloth("Casque de protection", ClothType.Hat, 5);
+            PCloth.AddRestrictedCloth("Casque du SWAT", ClothType.Hat, 6);
+            PCloth.AddRestrictedCloth("Chapeau de cowboy", ClothType.Hat, 7);
+            PCloth.AddRestrictedCloth("Bonnet de Noël", ClothType.Hat, 8);
+
+            PCloth.AddRestrictedCloth("Gilet de policier", ClothType.Shirt, 10);
+            PCloth.AddRestrictedCloth("Manteau de pompier", ClothType.Shirt, 11);
+            PCloth.AddRestrictedCloth("Blouse de médecin", ClothType.Shirt, 12);
+            PCloth.AddRestrictedCloth("Gilet jaune", ClothType.Shirt, 13);
+            PCloth.AddRestrictedCloth("Haut du SWAT", ClothType.Shirt, 14);
+            PCloth.AddRestrictedCloth("Torse nu", ClothType.Shirt, -1);
+
+            PCloth.AddRestrictedCloth("Pantalon de policier", ClothType.Pants, 10);
+            PCloth.AddRestrictedCloth("Pantalon de pompier", ClothType.Pants, 11);
+            PCloth.AddRestrictedCloth("Pantalon de médecin", ClothType.Pants, 12);
+            PCloth.AddRestrictedCloth("Pantalon de chantier", ClothType.Pants, 13);
+            PCloth.AddRestrictedCloth("Bas du SWAT", ClothType.Pants, 14);
+            PCloth.AddRestrictedCloth("Sous-vêtement", ClothType.Pants, -1);
+
+            PCloth.AddRestrictedCloth("Chaussures de policier", ClothType.Shoes, 10);
+            PCloth.AddRestrictedCloth("Chaussures de pompier", ClothType.Shoes, 11);
+            PCloth.AddRestrictedCloth("Chaussures de médecin", ClothType.Shoes, 12);
+            PCloth.AddRestrictedCloth("Chaussures de chantier", ClothType.Shoes, 13);
+            PCloth.AddRestrictedCloth("Bas du SWAT", ClothType.Shoes, 14);
+            PCloth.AddRestrictedCloth("Pieds nu", ClothType.Shoes, -1);
         }
 
         public override void OnPluginInit()

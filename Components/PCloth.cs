@@ -1,38 +1,60 @@
 ﻿using Life;
+using Life.InventorySystem;
 using Life.Network;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using UIPanelManager;
 
-namespace MyCloths
+namespace MyCloths.Components
 {
     [Serializable]
-    public class Cloth
+    public class PCloth
     {
         public string Slug;
         public string Name;
         public double Price;
-        public CharacterCustomization.ClothesPartType ClothType;
+        public ClothType ClothType;
         public int ClothId;
         public int SexId;
+
         public bool IsCustom;
         public string ClothData;
 
-        public Cloth()
-        {
+        public bool IsRestricted;
+
+        public PCloth()
+        { 
         }
+
+        public static void AddRestrictedCloth(string name, ClothType clothType, int clothId)
+        {
+            PCloth restrictedCloth = new PCloth();
+
+            restrictedCloth.Slug = name;
+            restrictedCloth.Name = name;
+            restrictedCloth.Price = 0;
+            restrictedCloth.ClothType = clothType;
+            restrictedCloth.ClothId = clothId;
+
+            restrictedCloth.SexId = 2;
+            restrictedCloth.IsCustom = false;
+            restrictedCloth.ClothData = null;
+            restrictedCloth.IsRestricted = true;
+
+            Main.clothList.clothTypes[clothType].Add(restrictedCloth);
+        } 
 
         public void CreateCustomCloth(Player player)
         {
-            if (ClothType == CharacterCustomization.ClothesPartType.Shirt) player.setup.inventory.AddItem(SexId == 0 ? 153 : 154, 1, ClothData);
-            else player.setup.inventory.AddItem(SexId == 0 ? 1073 : 1074, 1, ClothData);      
+            if (ClothType == ClothType.Shirt) player.setup.inventory.AddItem(SexId == 0 ? 153 : 154, 1, ClothData);
+            else player.setup.inventory.AddItem(SexId == 0 ? 1073 : 1074, 1, ClothData);
         }
 
         public void EquipCustomCloth(Player player)
         {
 
-            if (ClothType == CharacterCustomization.ClothesPartType.Shirt)
+            if (ClothType == ClothType.Shirt)
             {
                 player.setup.interaction.currentClothes.shirtId = SexId == 0 ? 153 : 154;
                 player.setup.interaction.currentClothes.shirtData = ClothData;

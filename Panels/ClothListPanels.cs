@@ -1,5 +1,7 @@
-﻿using Life.Network;
+﻿using Life.InventorySystem;
+using Life.Network;
 using Life.UI;
+using MyCloths.Components;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -13,22 +15,22 @@ namespace MyCloths.Panels
         public static void ShowClostList(Player player)
         {
             string[] jsonFiles = Directory.GetFiles(Main.clothPath, "*.json");
-            List<Cloth> clothList = new List<Cloth>();
+            List<PCloth> clothList = new List<PCloth>();
 
             foreach ((string jsonFile, int index) in jsonFiles.Select((jsonFile, index) => (jsonFile, index)))
             {
                 string json = File.ReadAllText(jsonFile);
-                Cloth currentCloth = JsonConvert.DeserializeObject<Cloth>(json);
+                PCloth currentCloth = JsonConvert.DeserializeObject<PCloth>(json);
                 clothList.Add(currentCloth);
             }
 
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.TabPrice).SetTitle($"Liste des vêtements personnalisés");
 
-            foreach ((Cloth currentCloth, int index) in clothList.Select((currentCloth, index) => (currentCloth, index)))
+            foreach ((PCloth currentCloth, int index) in clothList.Select((currentCloth, index) => (currentCloth, index)))
             {
                 panel.AddTabLine($"{(currentCloth.SexId == 0 ? $"<color={Main.boyColor}>[H]</color>" : $"<color={Main.girlColor}>[F]</color>")} {currentCloth.Name}",
                     currentCloth.Price.ToString("F2") + "€",
-                    (currentCloth.ClothType == CharacterCustomization.ClothesPartType.Shirt ? Main.shirtIcon : Main.pantIcon),
+                    (currentCloth.ClothType == ClothType.Shirt ? Main.shirtIcon : Main.pantIcon),
                     (ui) => ui.selectedTab = index);
             }
 
