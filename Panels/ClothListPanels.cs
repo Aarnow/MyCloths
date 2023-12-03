@@ -1,10 +1,7 @@
-﻿using Life;
-using Life.Network;
+﻿using Life.Network;
 using Life.UI;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using UIPanelManager;
@@ -29,7 +26,7 @@ namespace MyCloths.Panels
 
             foreach ((Cloth currentCloth, int index) in clothList.Select((currentCloth, index) => (currentCloth, index)))
             {
-                panel.AddTabLine($"{(currentCloth.IsMale ? $"<color={Main.boyColor}>[H]</color>" : $"<color={Main.girlColor}>[F]</color>")} {currentCloth.Name}",
+                panel.AddTabLine($"{(currentCloth.SexId == 0 ? $"<color={Main.boyColor}>[H]</color>" : $"<color={Main.girlColor}>[F]</color>")} {currentCloth.Name}",
                     currentCloth.Price.ToString("F2") + "€",
                     (currentCloth.ClothType == CharacterCustomization.ClothesPartType.Shirt ? Main.shirtIcon : Main.pantIcon),
                     (ui) => ui.selectedTab = index);

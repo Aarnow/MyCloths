@@ -15,7 +15,7 @@ namespace MyCloths
         public double Price;
         public CharacterCustomization.ClothesPartType ClothType;
         public int ClothId;
-        public bool IsMale;
+        public int SexId;
         public bool IsCustom;
         public string ClothData;
 
@@ -25,8 +25,8 @@ namespace MyCloths
 
         public void CreateCustomCloth(Player player)
         {
-            if (ClothType == CharacterCustomization.ClothesPartType.Shirt) player.setup.inventory.AddItem(IsMale ? 153 : 154, 1, ClothData);
-            else player.setup.inventory.AddItem(IsMale ? 1073 : 1074, 1, ClothData);      
+            if (ClothType == CharacterCustomization.ClothesPartType.Shirt) player.setup.inventory.AddItem(SexId == 0 ? 153 : 154, 1, ClothData);
+            else player.setup.inventory.AddItem(SexId == 0 ? 1073 : 1074, 1, ClothData);      
         }
 
         public void EquipCustomCloth(Player player)
@@ -34,14 +34,14 @@ namespace MyCloths
 
             if (ClothType == CharacterCustomization.ClothesPartType.Shirt)
             {
-                player.setup.interaction.currentClothes.shirtId = IsMale ? 153 : 154;
+                player.setup.interaction.currentClothes.shirtId = SexId == 0 ? 153 : 154;
                 player.setup.interaction.currentClothes.shirtData = ClothData;
                 player.setup.interaction.UseCloth(player.setup.interaction.currentClothes);
                 player.setup.interaction.currentClothes.shirtId = 0;
             }
             else
             {
-                player.setup.interaction.currentClothes.pantsId = IsMale ? 1073 : 1074;
+                player.setup.interaction.currentClothes.pantsId = SexId == 0 ? 1073 : 1074;
                 player.setup.interaction.currentClothes.pantsData = ClothData;
                 player.setup.interaction.UseCloth(player.setup.interaction.currentClothes);
                 player.setup.interaction.currentClothes.pantsId = 0;

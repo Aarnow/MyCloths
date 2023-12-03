@@ -42,12 +42,12 @@ namespace MyCloths.Panels
 
             panel.AddButton("Homme", (ui) =>
             {
-                newCloth.IsMale = true;
+                newCloth.SexId = 0;
                 PanelManager.NextPanel(player, ui, () => SetupClothData(player, newCloth));
             });
             panel.AddButton("Femme", (ui) =>
             {
-                newCloth.IsMale = false;
+                newCloth.SexId = 1;
                 PanelManager.NextPanel(player, ui, () => SetupClothData(player, newCloth));
             });
             panel.AddButton("Retour", (ui) => PanelManager.NextPanel(player, ui, () => SetupClothType(player)));
