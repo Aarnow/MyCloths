@@ -35,12 +35,16 @@ namespace MyCloths.Components
             return clothTypes.ContainsKey(clothType) ? clothTypes[clothType] : null;
         }
 
+        public List<PCloth> FilterClothListByTypeAndSex(int sexId, ClothType clothType)
+        {
+            return Main.clothList.clothTypes[clothType]
+                .Where(c => (sexId == 0 && c.SexId != 1) || (sexId == 1 && c.SexId != 0))
+                .ToList();
+        }
+
         public async Task<List<PCloth>> GetClothListOfPlayer(Player player, ClothType clothType)
         {
-            List<PCloth> pClothsByType = Main.clothList.clothTypes[clothType]
-                .Where(c => (player.character.SexId == 0 && c.SexId != 1) || (player.character.SexId == 1 && c.SexId != 0))
-                .ToList();
-
+            List<PCloth> pClothsByType = FilterClothListByTypeAndSex(player.character.SexId, clothType);
             int clothTypeIndex = Convert.ToInt32(Enum.ToObject(typeof(ClothType), clothType));
             List<Clothes> playerClothByType = await LifeDB.db.Table<Clothes>().Where(c => c.CharacterId == player.character.Id && c.ClothType == clothTypeIndex).ToListAsync();
             List<int> clothIds = playerClothByType.Select(c => c.ClothId).ToList();
