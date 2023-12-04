@@ -34,26 +34,30 @@ namespace MyCloths.Panels
             player.ShowPanelUI(panel);
         }
 
-        public static void PlayerClothSelection(Player player, ClothType clothType)
+        public static async void PlayerClothSelection(Player player, ClothType clothType)
         {
-            List<PCloth> pCloths = Main.clothList.clothTypes[clothType]
-                .Where(c => (player.character.SexId == 0 && c.SexId != 1) || (player.character.SexId == 1 && c.SexId != 0))
-                .ToList();
+            List<PCloth> pCloths = await Main.clothList.GetClothListOfPlayer(player, clothType);
+
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Tab).SetTitle($"Changer un vêtement");
 
-            foreach ((PCloth cloth, int index) in pCloths.Select((cloth, index) => (cloth, index)))
+            if(pCloths.Count <= 0) panel.AddTabLine($"Vous n'avez aucun vêtement de ce type.", (ui) => ui.selectedTab = 0);
+            else
             {
-                panel.AddTabLine($"{(cloth.SexId == 0 ? $"<color={Main.boyColor}>[H]</color>" : $"<color={Main.girlColor}>[F]</color>")} {cloth.Name}", (ui) => ui.selectedTab = index);
+                foreach ((PCloth cloth, int index) in pCloths.Select((cloth, index) => (cloth, index)))
+                {
+                    panel.AddTabLine($"{(cloth.SexId == 0 ? $"<color={Main.boyColor}>[H]</color>" : $"<color={Main.girlColor}>[F]</color>")} {cloth.Name}", (ui) => ui.selectedTab = index);
+                }
+                panel.AddButton("Equiper", (ui) =>
+                {
+                    PanelManager.NextPanel(player, ui, () =>
+                    {
+                        SwapClotheByType(player, clothType, pCloths[ui.selectedTab].ClothId);
+                        PlayerClothSelection(player, clothType);
+                    });
+                });
             }
 
-            panel.AddButton("Equiper", (ui) =>
-            {
-                PanelManager.NextPanel(player, ui, () =>
-                {
-                    SwapClotheByType(player, clothType, pCloths[ui.selectedTab].ClothId);
-                    PlayerClothSelection(player, clothType);
-                });
-            });
+            panel.AddButton("Retour", (ui) => PanelManager.NextPanel(player, ui, () => PlayerClothMenu(player)));
             panel.AddButton("Fermer", (ui) => PanelManager.Quit(ui, player));
 
             player.ShowPanelUI(panel);

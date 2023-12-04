@@ -110,10 +110,7 @@ namespace MyCloths
 
             if (keyCode == KeyCode.O)
             {
-                if (!onUI)
-                {
-                    PlayerClothPanels.PlayerClothMenu(player);
-                }
+                if (!onUI) PlayerClothPanels.PlayerClothMenu(player);
             }
         }
 
