@@ -50,6 +50,11 @@ namespace MyCloths.Components
             List<int> clothIds = playerClothByType.Select(c => c.ClothId).ToList();
             pClothsByType.RemoveAll(c => !clothIds.Contains(c.ClothId));
 
+            if (clothType != ClothType.Hat && clothType != ClothType.Accessory)
+            {
+                pClothsByType.Add(Main.clothList.clothTypes[clothType].Where(c => c.ClothId == -1).FirstOrDefault());
+            }
+
             return pClothsByType;
         }
     }

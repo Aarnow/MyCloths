@@ -1,4 +1,4 @@
-![Nom de l'image](https://cdn.discordapp.com/attachments/517055230756782095/1180104735043375114/mypoints-ico.png?ex=657c352e&is=6569c02e&hm=883525cbce732f03f64e71da10798e97d365b3dd28150503be73827db7e2cb03&)
+![Nom de l'image](https://cdn.discordapp.com/attachments/517055230756782095/1181389494696546455/mycloths-ico.png?ex=6580e1b4&is=656e6cb4&hm=dce5114213505ea85741d74c087d3658a26e5db62b8b3a2ca6b90c3d47a80145&)
 # ✧ Novalife Plugin MyCloth v1.0.0
 
 Ce plugin permet de créer et sauvegarder des t-shirts et des pantalons personnalisés via une interface.
