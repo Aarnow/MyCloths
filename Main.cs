@@ -108,7 +108,7 @@ namespace MyCloths
         {
             base.OnPlayerInput(player, keyCode, onUI);
 
-            if (keyCode == KeyCode.O)
+            if (keyCode == KeyCode.Y)
             {
                 if (!onUI) PlayerClothPanels.PlayerClothMenu(player);
             }
