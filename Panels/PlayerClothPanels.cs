@@ -34,6 +34,28 @@ namespace MyCloths.Panels
             player.ShowPanelUI(panel);
         }
 
+        public static void PlayerClothMenuBis(Player player)
+        {
+            UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Tab).SetTitle($"Retirer/Mettre un vêtement");
+
+            foreach ((ClothType partType, int index) in Enum.GetValues(typeof(ClothType)).Cast<ClothType>().Select((value, index) => (value, index)))
+            {
+                panel.AddTabLine($"{partType}", (ui) => ui.selectedTab = index);
+            }
+
+            panel.AddButton("Equiper/Retirer", (ui) =>
+            {
+                if (Enum.IsDefined(typeof(ClothType), ui.selectedTab))
+                {
+                    ClothType clothPartType = (ClothType)Enum.ToObject(typeof(ClothType), ui.selectedTab);
+                    PCloth.EquipClothByTypeBis(player, clothPartType);
+                }
+            });
+            panel.AddButton("Fermer", (ui) => PanelManager.Quit(ui, player));
+
+            player.ShowPanelUI(panel);
+        }
+
         public static async void PlayerClothSelection(Player player, ClothType clothType)
         {
             List<PCloth> pCloths = await Main.clothList.GetClothListOfPlayer(player, clothType);
@@ -51,7 +73,7 @@ namespace MyCloths.Panels
                 {
                     PanelManager.NextPanel(player, ui, () =>
                     {
-                        SwapClotheByType(player, clothType, pCloths[ui.selectedTab].ClothId);
+                        PCloth.EquipClothByType(player, clothType, pCloths[ui.selectedTab].ClothId);
                         PlayerClothSelection(player, clothType);
                     });
                 });
@@ -61,33 +83,6 @@ namespace MyCloths.Panels
             panel.AddButton("Fermer", (ui) => PanelManager.Quit(ui, player));
 
             player.ShowPanelUI(panel);
-        }
-
-        public static void SwapClotheByType(Player player, ClothType clotheType, int clotheId)
-        {
-            switch (clotheType)
-            {
-                case ClothType.Hat:
-                    player.setup.characterSkinData.Hat = clotheId;
-                    break;
-                case ClothType.Accessory:
-                    player.setup.characterSkinData.Accessory = clotheId;
-                    break;
-                case ClothType.Shirt:
-                    player.setup.characterSkinData.TShirt = clotheId;
-                    break;
-                case ClothType.Pants:
-                    player.setup.characterSkinData.Pants = clotheId;
-                    break;
-                case ClothType.Shoes:
-                    player.setup.characterSkinData.Shoes = clotheId;
-                    break;
-                default:
-                    break;
-            }
-
-            player.character.Skin = player.setup.characterSkinData.SerializeToJson();
-            player.setup.RpcSkinChange(player.setup.characterSkinData);     
         }
     }
 }

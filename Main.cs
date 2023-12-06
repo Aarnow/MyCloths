@@ -1,10 +1,12 @@
-﻿using Life;
+﻿using FirstGearGames.Utilities.Networks;
+using Life;
 using Life.InventorySystem;
 using Life.Network;
 using MyCloths.Components;
 using MyCloths.Panels;
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace MyCloths
@@ -110,7 +112,18 @@ namespace MyCloths
 
             if (keyCode == KeyCode.Y)
             {
-                if (!onUI) PlayerClothPanels.PlayerClothMenu(player);
+                if (!onUI)
+                {
+                    if (Nova.a.GetAreaById(player.setup.areaId).permissions.owner.characterId == player.character.Id ||
+                    Nova.a.GetAreaById(player.setup.areaId).permissions.coOwners.Any(co => co.characterId == player.character.Id))
+                    {
+                        PlayerClothPanels.PlayerClothMenu(player);
+                    }
+                    else
+                    {
+                        PlayerClothPanels.PlayerClothMenuBis(player);
+                    }
+                }
             }
         }
 

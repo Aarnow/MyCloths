@@ -70,6 +70,60 @@ namespace MyCloths.Components
             }
         }
 
+        public static void EquipClothByType(Player player, ClothType clotheType, int clotheId)
+        {
+            switch (clotheType)
+            {
+                case ClothType.Hat:
+                    player.setup.characterSkinData.Hat = clotheId;
+                    break;
+                case ClothType.Accessory:
+                    player.setup.characterSkinData.Accessory = clotheId;
+                    break;
+                case ClothType.Shirt:
+                    player.setup.characterSkinData.TShirt = clotheId;
+                    break;
+                case ClothType.Pants:
+                    player.setup.characterSkinData.Pants = clotheId;
+                    break;
+                case ClothType.Shoes:
+                    player.setup.characterSkinData.Shoes = clotheId;
+                    break;
+                default:
+                    break;
+            }
+
+            player.character.Skin = player.setup.characterSkinData.SerializeToJson();
+            player.setup.RpcSkinChange(player.setup.characterSkinData);
+        }
+
+        public static void EquipClothByTypeBis(Player player, ClothType clotheType)
+        {
+            CharacterCustomizationSetup skin = JsonConvert.DeserializeObject<CharacterCustomizationSetup>(player.character.Skin);
+            switch (clotheType)
+            {
+                case ClothType.Hat:
+                    player.setup.characterSkinData.Hat = player.setup.characterSkinData.Hat != -1 ? -1 : skin.Hat;
+                    break;
+                case ClothType.Accessory:
+                    player.setup.characterSkinData.Accessory = player.setup.characterSkinData.Accessory != -1 ? -1 : skin.Accessory;
+                    break;
+                case ClothType.Shirt:
+                    player.setup.characterSkinData.TShirt = player.setup.characterSkinData.TShirt != -1 ? -1 : skin.TShirt;
+                    break;
+                case ClothType.Pants:
+                    player.setup.characterSkinData.Pants = player.setup.characterSkinData.Pants != -1 ? -1 : skin.Pants;
+                    break;
+                case ClothType.Shoes:
+                    player.setup.characterSkinData.Shoes = player.setup.characterSkinData.Shoes != -1 ? -1 : skin.Shoes;
+                    break;
+                default:
+                    break;
+            }
+
+            player.setup.RpcSkinChange(player.setup.characterSkinData);
+        }
+
         public void Delete(Player player)
         {
             string path = Main.clothPath + "/Cloth_" + Slug + ".json";
@@ -95,5 +149,4 @@ namespace MyCloths.Components
             File.WriteAllText(filePath, json);
         }
     }
-
 }
