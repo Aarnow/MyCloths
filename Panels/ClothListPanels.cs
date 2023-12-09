@@ -24,7 +24,7 @@ namespace MyCloths.Panels
                 clothList.Add(currentCloth);
             }
 
-            UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.TabPrice).SetTitle($"Liste des vêtements personnalisés");
+            UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.TabPrice).SetTitle($"MyCloths 1.2.0");
 
             foreach ((PCloth currentCloth, int index) in clothList.Select((currentCloth, index) => (currentCloth, index)))
             {
