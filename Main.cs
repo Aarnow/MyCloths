@@ -82,14 +82,14 @@ namespace MyCloths
             PCloth.AddRestrictedCloth("Pantalon de pompier", ClothType.Pants, 11);
             PCloth.AddRestrictedCloth("Pantalon de médecin", ClothType.Pants, 12);
             PCloth.AddRestrictedCloth("Pantalon de chantier", ClothType.Pants, 13);
-            PCloth.AddRestrictedCloth("Bas du SWAT", ClothType.Pants, 14);
+            PCloth.AddRestrictedCloth("Pantalon du SWAT", ClothType.Pants, 14);
             PCloth.AddRestrictedCloth("Sous-vêtement", ClothType.Pants, -1);
 
             PCloth.AddRestrictedCloth("Chaussures de policier", ClothType.Shoes, 10);
             PCloth.AddRestrictedCloth("Chaussures de pompier", ClothType.Shoes, 11);
             PCloth.AddRestrictedCloth("Chaussures de médecin", ClothType.Shoes, 12);
             PCloth.AddRestrictedCloth("Chaussures de chantier", ClothType.Shoes, 13);
-            PCloth.AddRestrictedCloth("Bas du SWAT", ClothType.Shoes, 14);
+            PCloth.AddRestrictedCloth("Chaussures du SWAT", ClothType.Shoes, 14);
             PCloth.AddRestrictedCloth("Pieds nu", ClothType.Shoes, -1);
         }
 
@@ -98,9 +98,22 @@ namespace MyCloths
             base.OnPluginInit();
             InitDirectory();
 
-            new SChatCommand("/mycloths", new string[] { "/mc", "/myc" }, "Permet d'ouvrir le panel du plugin MyCloths", "/mycloths", (player, arg) =>
+            new SChatCommand("/mycloths", new string[] { "/mc", "/myc" }, "Permet d'ouvrir le panel de configuration du plugin MyCloths", "/mycloths", (player, arg) =>
             {
                 if (player.IsAdmin) ClothListPanels.ShowClostList(player);
+            }).Register();
+
+            new SChatCommand("/c", "Permet d'ouvrir le panel du plugin MyCloths", "/c", (player, arg) =>
+            {
+                if (Nova.a.GetAreaById(player.setup.areaId).permissions.owner.characterId == player.character.Id ||
+                   Nova.a.GetAreaById(player.setup.areaId).permissions.coOwners.Any(co => co.characterId == player.character.Id))
+                {
+                    PlayerClothPanels.PlayerClothMenu(player);
+                }
+                else
+                {
+                    PlayerClothPanels.PlayerClothMenuOutside(player);
+                }
             }).Register();
 
             Console.WriteLine($"Plugin \"MyCloths\" initialisé avec succès.");
@@ -110,7 +123,7 @@ namespace MyCloths
         {
             base.OnPlayerInput(player, keyCode, onUI);
 
-            if (keyCode == KeyCode.Y)
+            /*if (keyCode == KeyCode.Y)
             {
                 if (!onUI)
                 {
@@ -121,10 +134,10 @@ namespace MyCloths
                     }
                     else
                     {
-                        PlayerClothPanels.PlayerClothMenuBis(player);
+                        PlayerClothPanels.PlayerClothMenuOutside(player);
                     }
                 }
-            }
+            }*/
         }
 
 

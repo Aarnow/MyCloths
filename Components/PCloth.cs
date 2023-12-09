@@ -97,7 +97,7 @@ namespace MyCloths.Components
             player.setup.RpcSkinChange(player.setup.characterSkinData);
         }
 
-        public static void EquipClothByTypeBis(Player player, ClothType clotheType)
+        public static void EquipClothByTypeOutside(Player player, ClothType clotheType)
         {
             CharacterCustomizationSetup skin = JsonConvert.DeserializeObject<CharacterCustomizationSetup>(player.character.Skin);
             switch (clotheType)

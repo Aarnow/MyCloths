@@ -34,7 +34,7 @@ namespace MyCloths.Panels
             player.ShowPanelUI(panel);
         }
 
-        public static void PlayerClothMenuBis(Player player)
+        public static void PlayerClothMenuOutside(Player player)
         {
             UIPanel panel = new UIPanel("MyCloths Menu", UIPanel.PanelType.Tab).SetTitle($"Retirer/Mettre un vêtement");
 
@@ -48,7 +48,7 @@ namespace MyCloths.Panels
                 if (Enum.IsDefined(typeof(ClothType), ui.selectedTab))
                 {
                     ClothType clothPartType = (ClothType)Enum.ToObject(typeof(ClothType), ui.selectedTab);
-                    PCloth.EquipClothByTypeBis(player, clothPartType);
+                    PCloth.EquipClothByTypeOutside(player, clothPartType);
                 }
             });
             panel.AddButton("Fermer", (ui) => PanelManager.Quit(ui, player));
