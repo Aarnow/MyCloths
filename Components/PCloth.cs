@@ -53,7 +53,6 @@ namespace MyCloths.Components
 
         public void EquipCustomCloth(Player player)
         {
-
             if (ClothType == ClothType.Shirt)
             {
                 player.setup.interaction.currentClothes.shirtId = SexId == 0 ? 153 : 154;

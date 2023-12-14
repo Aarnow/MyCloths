@@ -1,9 +1,10 @@
-﻿using FirstGearGames.Utilities.Networks;
-using Life;
+﻿using Life;
 using Life.InventorySystem;
 using Life.Network;
+using Life.UI;
 using MyCloths.Components;
 using MyCloths.Panels;
+using MyMenu.Entities;
 using System;
 using System.IO;
 using System.Linq;
@@ -103,10 +104,13 @@ namespace MyCloths
                 if (player.IsAdmin) ClothListPanels.ShowClostList(player);
             }).Register();
 
-            new SChatCommand("/c", "Permet d'ouvrir le panel du plugin MyCloths", "/c", (player, arg) =>
+            //MyMenu
+            Section section = new Section(Section.GetSourceName(), "MyCloth", "v1.0.1", "Aarnow");
+            Action<UIPanel> action = ui =>
             {
+                Player player = section.GetPlayer(ui);
                 if (Nova.a.GetAreaById(player.setup.areaId).permissions.owner.characterId == player.character.Id ||
-                   Nova.a.GetAreaById(player.setup.areaId).permissions.coOwners.Any(co => co.characterId == player.character.Id))
+                  Nova.a.GetAreaById(player.setup.areaId).permissions.coOwners.Any(co => co.characterId == player.character.Id))
                 {
                     PlayerClothPanels.PlayerClothMenu(player);
                 }
@@ -114,7 +118,9 @@ namespace MyCloths
                 {
                     PlayerClothPanels.PlayerClothMenuOutside(player);
                 }
-            }).Register();
+            };
+            section.Line = new UITabLine(section.Title, action);
+            section.Insert();
 
             Console.WriteLine($"Plugin \"MyCloths\" initialisé avec succès.");
         }
@@ -122,24 +128,7 @@ namespace MyCloths
         public override void OnPlayerInput(Player player, KeyCode keyCode, bool onUI)
         {
             base.OnPlayerInput(player, keyCode, onUI);
-
-            /*if (keyCode == KeyCode.Y)
-            {
-                if (!onUI)
-                {
-                    if (Nova.a.GetAreaById(player.setup.areaId).permissions.owner.characterId == player.character.Id ||
-                    Nova.a.GetAreaById(player.setup.areaId).permissions.coOwners.Any(co => co.characterId == player.character.Id))
-                    {
-                        PlayerClothPanels.PlayerClothMenu(player);
-                    }
-                    else
-                    {
-                        PlayerClothPanels.PlayerClothMenuOutside(player);
-                    }
-                }
-            }*/
         }
-
 
         public void InitDirectory()
         {

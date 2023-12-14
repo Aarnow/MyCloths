@@ -22,6 +22,9 @@
     <Reference Include="Mirror">
       <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Nova-Life\Nova-Life_Data\Managed\Mirror.dll</HintPath>
     </Reference>
+    <Reference Include="MyMenu">
+      <HintPath>..\MyMenu\bin\Debug\net4.7.2\MyMenu.dll</HintPath>
+    </Reference>
     <Reference Include="UIPanelManager">
       <HintPath>..\UIPanelManager\bin\Debug\net4.7.2\UIPanelManager.dll</HintPath>
     </Reference>
