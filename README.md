@@ -1,5 +1,5 @@
 ![Nom de l'image](https://cdn.discordapp.com/attachments/1051246856249823276/1181554192519802982/Tshirt.png?ex=65817b17&is=656f0617&hm=8edc97a18dfb0225358b48ccca7ee18363919adab446fe3ed7d8380a4153da7c&)
-# ✧ Novalife Plugin MyCloth v1.1.0
+# ✧ Novalife Plugin MyCloth
 
 Ce plugin permet de créer et sauvegarder des t-shirts et des pantalons personnalisés via une interface.
 Les joueurs peuvent accéder à un menu leur permettant de changer leurs vêtements parmi ceux en leur possession.
@@ -13,7 +13,7 @@ Les joueurs peuvent accéder à un menu leur permettant de changer leurs vêteme
 
 ## ✧ Installation
 
-1. Téléchargez les fichiers `UIPanelManager.dll` et `MyCloths.dll` depuis la page des releases de ce dépôt.  
+1. Téléchargez les fichiers `UIPanelManager.dll`, `MyMenu.dll` et `MyCloths.dll` depuis la page des releases de ce dépôt.  
 2. Ajoutez les fichiers dans le dossier des plugins de votre serveur Novalife.
 
 ## ✧ Utilisation
